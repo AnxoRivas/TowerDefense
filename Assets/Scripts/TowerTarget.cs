@@ -1,22 +1,23 @@
 using UnityEngine;
+using System.Collections.Generic; // Necesario para usar listas
 
 public class TowerTarget : MonoBehaviour
 {
-    private Transform target; // El objetivo
+    private List<Transform> targets = new List<Transform>(); // Lista de objetivos
     public float rotationSpeed = 5f; // Velocidad de rotación
     private Quaternion initialRotation; // Rotación inicial de la torre
-    private BallestaManager ballestaManager; // Referencia al script de la ballesta
+    private ITorreManager torreManager; // Referencia al manager de la torre
 
     private void Start() 
     {
-        ballestaManager = GetComponent<BallestaManager>();
+        torreManager = GetComponent<ITorreManager>();
         initialRotation = transform.rotation; // Guarda la rotación inicial de la torre
     }
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Enemy"))
         {
-            target = other.transform; // Asigna el objetivo al enemigo que entra en el trigger
+            targets.Add(other.transform); // Añade al enemigo a la lista de objetivos
         }
     }
 
@@ -24,22 +25,32 @@ public class TowerTarget : MonoBehaviour
     {
         if (other.CompareTag("Enemy"))
         {
-            target = null; // Elimina el objetivo cuando el enemigo sale del trigger
+            targets.Remove(other.transform); // Elimina el enemigo de la lista de objetivos
         }
     }
 
 
-    // Update is called once per frame
     void Update()
     {
-        if (target != null)
-        {
-            // Rotar la torre hacia el objetivo
-            Vector3 direction = target.position - transform.position;
-            Quaternion lookRotation = Quaternion.LookRotation(direction);
-            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, rotationSpeed * Time.deltaTime);
+        targets.RemoveAll(targets => targets == null || !targets.gameObject.activeInHierarchy); // Elimina los objetivos nulos o inactivos
         
-            ballestaManager.Atacar(target); // Llama al método de ataque de la ballesta
+        if (targets.Count > 0)
+        {
+            Transform target = targets[0]; // Obtiene el primer objetivo de la lista
+
+            if (target != null)
+            {
+                // Rotar la torre hacia el objetivo
+                Vector3 direction = target.position - transform.position;
+                Quaternion lookRotation = Quaternion.LookRotation(direction);
+                transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, rotationSpeed * Time.deltaTime);
+        
+                torreManager?.Atacar(target); // Llama al método de ataque de la ballesta
+            }
+            else
+            {
+                targets.RemoveAt(0); // Elimina el objetivo si es nulo
+            }
         }
         else
         {

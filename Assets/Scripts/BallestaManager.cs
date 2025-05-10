@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class BallestaManager : MonoBehaviour
+public class BallestaManager : MonoBehaviour, ITorreManager
 {
     [SerializeField] float Daño = 5f; //Daño de la torreta.
     [SerializeField] float VelocidadDisparo = 1f; //Velocidad de disparo de la torreta.
