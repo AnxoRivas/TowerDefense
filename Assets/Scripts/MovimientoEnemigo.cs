@@ -4,6 +4,9 @@ using System.Collections.Generic;
 
 public class MovimientoEnemigo : MonoBehaviour
 {
+
+    [SerializeField] private GameManager gameManager; // Referencia al GameManager.
+    [SerializeField] private ObjectPool pool; // Referencia al Object Pool.
     public List<Transform> waypoints = new List<Transform>();
     private int targetIndex = 1;
     public float movementSpeed= 4;
@@ -23,6 +26,8 @@ public class MovimientoEnemigo : MonoBehaviour
 private void Movement() {
     // Asegurarse de que el índice esté dentro del rango de la lista
     if (targetIndex >= waypoints.Count) {
+        pool.ReturnObject(gameObject); // Devolver el objeto al pool si se ha alcanzado el último waypoint.
+        gameManager.RestarVida(); // Restar vida al jugador
         return; // Detener el movimiento si no hay más waypoints
     }
 
@@ -40,6 +45,8 @@ private void Movement() {
 
     if (distance <= 0.1f) {
         if (targetIndex >= waypoints.Count - 1) {
+            pool.ReturnObject(gameObject); // Devolver el objeto al pool si se ha alcanzado el último waypoint
+            gameManager.RestarVida(); // Restar vida al jugador
             return; // Detener el movimiento si se alcanza el último waypoint
         }
         targetIndex++;

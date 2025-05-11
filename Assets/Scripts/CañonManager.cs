@@ -28,7 +28,6 @@ public class CañonManager : MonoBehaviour, ITorreManager
             {
                 scriptProyectil.Configurar(target, Daño);
             }
-            Debug.Log("Lanzando proyectil hacia: " + target.name);
         }
     }
 }

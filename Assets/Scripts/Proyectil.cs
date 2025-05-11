@@ -37,7 +37,6 @@ public class Proyectil : MonoBehaviour
         if (enemigo != null)
         {
             enemigo.RecibirDanio(daño); // Aplica el daño al enemigo.
-            Debug.Log("Impacto en el enemigo: " + target.name);
             Destroy(gameObject); // Destruye el proyectil después de impactar.
         }
         Destroy(gameObject); // Destruye el proyectil después de impactar.

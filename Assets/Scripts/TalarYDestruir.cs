@@ -5,22 +5,30 @@ public class TalarYDestruir : MonoBehaviour
     public Mesh meshTalado; // Mesh que se aplica al talar
     private bool talado = false;
 
-    void OnMouseDown()
+void OnMouseDown()
+{
+    Debug.Log("Clic detectado en: " + gameObject.name);
+
+    MeshFilter meshFilter = GetComponent<MeshFilter>();
+
+    if (meshFilter == null)
     {
-        MeshFilter meshFilter = GetComponent<MeshFilter>();
-
-        if (meshFilter == null) return;
-
-        if (!talado)
-        {
-            // Primer clic: talar (cambiar mesh)
-            meshFilter.mesh = meshTalado;
-            talado = true;
-        }
-        else if (meshFilter.sharedMesh == meshTalado)
-        {
-            // Segundo clic: destruir
-            Destroy(gameObject);
-        }
+        Debug.LogWarning("El objeto no tiene un MeshFilter: " + gameObject.name);
+        return;
     }
+
+    if (!talado)
+    {
+        Debug.Log("Talar: " + gameObject.name);
+        // Primer clic: talar (cambiar mesh)
+        meshFilter.mesh = meshTalado;
+        talado = true;
+    }
+    else if (meshFilter.sharedMesh == meshTalado)
+    {
+        Debug.Log("Destruir: " + gameObject.name);
+        // Segundo clic: destruir
+        Destroy(gameObject);
+    }
+}
 }

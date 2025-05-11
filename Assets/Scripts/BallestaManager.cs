@@ -30,7 +30,6 @@ public class BallestaManager : MonoBehaviour, ITorreManager
             {
                 scriptProyectil.Configurar(target, Daño);
             }
-            Debug.Log("Lanzando proyectil hacia: " + target.name);
         }
     }
     void Update()
