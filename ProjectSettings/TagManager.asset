@@ -5,16 +5,17 @@ TagManager:
   serializedVersion: 3
   tags:
   - Enemy
+  - Vida
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Preview
   - Water
   - UI
   - Mago
   - Rogue
-  - 
+  - Ground
   - 
   - 
   - 
