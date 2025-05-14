@@ -45,8 +45,14 @@ public class GameManager : MonoBehaviour
     public void SumarRecursos(int cantidad)
     {
         recursos += cantidad;
-        Debug.Log("Recursos: " + recursos);
         uiManager.ActualizarTexto(); // Actualiza el texto en el UIManager
+    }
+
+    public void RestarRecursos(int cantidad)
+    {
+        recursos -= cantidad;
+        Debug.Log("Recursos Gastados");
+        uiManager.ActualizarTexto();
     }
 
 

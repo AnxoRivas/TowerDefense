@@ -8,6 +8,8 @@ public class TowerPlacementManager : MonoBehaviour, IPointerClickHandler
     [SerializeField] private LayerMask collisionLayerMask; // Capa para verificar colisiones
     [SerializeField] private Material validPlacementMaterial; // Material para preview válido
     [SerializeField] private Material invalidPlacementMaterial; // Material para preview inválido
+    [SerializeField] private GameManager gameManager; // instancia del gamemanager.
+    [SerializeField] public int recursosRequeridos; //Recursos requeridos para poner la torre
 
     private GameObject currentPreview; // Torre en preview
     private GameObject selectedTowerPrefab; // Torre seleccionada
@@ -36,9 +38,15 @@ public class TowerPlacementManager : MonoBehaviour, IPointerClickHandler
     // Método de la interfaz IPointerClickHandler para detectar clics en el botón o imagen
     public void OnPointerClick(PointerEventData eventData)
     {
-        Debug.Log("Botón clicado: Seleccionando torre...");
-        selectedTowerPrefab = towerPrefab; // Asigna el prefab de la torre seleccionada
-        StartPlacement();
+        if (recursosRequeridos <= gameManager.recursos)
+        {
+            Debug.Log("Botón clicado: Seleccionando torre...");
+            selectedTowerPrefab = towerPrefab; // Asigna el prefab de la torre seleccionada
+            StartPlacement();
+        } else
+        {
+            Debug.Log("Recursos Insuficientes");
+        }
     }
 
     private void StartPlacement()
@@ -130,6 +138,7 @@ public class TowerPlacementManager : MonoBehaviour, IPointerClickHandler
             Instantiate(selectedTowerPrefab, currentPreview.transform.position, Quaternion.identity);
             CancelPlacement();
             isPlacing = false; // Asegúrate de que isPlacing sea false después de colocar la torre
+            gameManager.RestarRecursos(recursosRequeridos);
         }
         else
         {
