@@ -13,9 +13,9 @@ public class Proyectil : MonoBehaviour
     }
     void Update()
     {
-        if(target == null)
+        if(target == null || !target.gameObject.activeInHierarchy)
         {
-            Destroy(gameObject); // Destruye el proyectil si no hay objetivo.
+            gameObject.SetActive(false); // Desactiva el proyectil si el objetivo no es válido.
             return;
         }
         // Mover el proyectil hacia el objetivo.
@@ -25,7 +25,7 @@ public class Proyectil : MonoBehaviour
         transform.rotation = Quaternion.LookRotation(direccion); // Rotar el proyectil hacia la dirección del movimiento.
 
         // Comprobar si el proyectil ha alcanzado al objetivo.
-        if (Vector3.Distance(transform.position, target.position) < 0.2f)
+        if (Vector3.Distance(transform.position, target.position) < 0.4f)
         {
             Impactar();
         }
@@ -37,8 +37,7 @@ public class Proyectil : MonoBehaviour
         if (enemigo != null)
         {
             enemigo.RecibirDanio(daño); // Aplica el daño al enemigo.
-            Destroy(gameObject); // Destruye el proyectil después de impactar.
         }
-        Destroy(gameObject); // Destruye el proyectil después de impactar.
+        gameObject.SetActive(false); // Desactiva el proyectil.
     }
 }

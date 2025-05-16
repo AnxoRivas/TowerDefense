@@ -5,6 +5,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; } // Instancia del GameManager
 
     [SerializeField] private UIManager uiManager; // Referencia al UIManager
+    public GameObject GameOverUI; // Reference to the Game Over UI
 
     public int vidas = 3; // Vidas del jugador
     public int recursos = 0; // Recursos del jugador
@@ -21,24 +22,19 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject); // Destruir el objeto si ya existe una instancia
         }
     }
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     public void RestarVida()
     {
         vidas--;
         if (vidas <= 0)
         {
-            // Aquí puedes manejar la lógica de Game Over
-            Debug.Log("Game Over");
+            vidas = 0; // Asegurarse de que las vidas no sean negativas
+            GameOverUI.SetActive(true); // Mostrar la pantalla de Game Over
+            Time.timeScale = 0; // Pausar el juego
+        }
+        else
+        {
+            uiManager.ActualizarTexto(); // Actualiza el texto en el UIManager
         }
     }
 

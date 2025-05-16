@@ -19,16 +19,6 @@ public class UIManager : MonoBehaviour
 
     Debug.Log($"vida1: {vida1}, vida2: {vida2}, vida3: {vida3}");
 }
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     public void RestarVida()
     {

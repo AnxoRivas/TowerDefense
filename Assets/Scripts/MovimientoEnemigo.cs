@@ -11,11 +11,6 @@ public class MovimientoEnemigo : MonoBehaviour
     private int targetIndex = 1;
     public float movementSpeed= 4;
     public float rotationSpeed = 10f; // Velocidad de rotación
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
 
     // Update is called once per frame
     void Update()
