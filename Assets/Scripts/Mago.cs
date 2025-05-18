@@ -8,7 +8,7 @@ public class Mago : MonoBehaviour, IEnemigo
     private void Start()
     {
         // Buscar el Object Pool en la escena.
-        pool = FindObjectOfType<ObjectPool>();
+        pool = FindAnyObjectByType<ObjectPool>();
     }
 
     public void RecibirDanio(float danio)

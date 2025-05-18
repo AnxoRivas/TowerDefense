@@ -106,8 +106,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 0.6, y: 0.7, z: 0.6}
+  m_Center: {x: 0, y: 0.3, z: 0}
 --- !u!1 &793569011276358444
 GameObject:
   m_ObjectHideFlags: 0
@@ -214,8 +214,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 0.6, y: 0.7, z: 0.6}
+  m_Center: {x: 0, y: 0.3, z: 0}
 --- !u!1 &8818857671575340964
 GameObject:
   m_ObjectHideFlags: 0
@@ -298,6 +298,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a3bf5549063302468a60a80de07442e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  proyectilPool: {fileID: 0}
   "Da\xF1o": 5
-  VelocidadDisparo: 1
-  proyectilPrefab: {fileID: 1014592799982828718, guid: be45b6845b780154093469cbca91a130, type: 3}
+  VelocidadDisparo: 3

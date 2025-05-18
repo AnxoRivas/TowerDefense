@@ -14,6 +14,7 @@ public class TowerPlacementManager : MonoBehaviour, IPointerClickHandler
     private GameObject currentPreview; // Torre en preview
     private GameObject selectedTowerPrefab; // Torre seleccionada
     private bool isPlacing = false; // Indica si se está colocando una torre
+    private Color originalColor = Color.white;
 
     void Update()
     {
@@ -53,12 +54,26 @@ public class TowerPlacementManager : MonoBehaviour, IPointerClickHandler
     {
         if (selectedTowerPrefab == null) return;
 
-        // Crear el preview de la torre
         currentPreview = Instantiate(selectedTowerPrefab);
-        SetLayer(currentPreview, LayerMask.NameToLayer("Preview")); // Cambia la capa del preview
-        currentPreview.GetComponent<Collider>().enabled = false; // Desactiva el collider del preview
-        SetPreviewMaterial(validPlacementMaterial);
+        SetLayer(currentPreview, LayerMask.NameToLayer("Preview"));
+        currentPreview.GetComponent<Collider>().enabled = false;
+
+        // Guarda el color original del primer renderer
+        Renderer renderer = currentPreview.GetComponentInChildren<Renderer>();
+        if (renderer != null)
+            originalColor = renderer.material.color;
+
+        SetPreviewColor(originalColor);
         isPlacing = true;
+    }
+
+    private void SetPreviewColor(Color color)
+    {
+        Renderer[] renderers = currentPreview.GetComponentsInChildren<Renderer>();
+        foreach (Renderer renderer in renderers)
+        {
+            renderer.material.color = color;
+        }
     }
 
     private void SetLayer(GameObject obj, int newLayer)
@@ -75,20 +90,18 @@ public class TowerPlacementManager : MonoBehaviour, IPointerClickHandler
 
     private void HandlePlacementPreview()
     {
-        // Obtener la posición del mouse en el mundo
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, placementLayerMask))
         {
-            currentPreview.transform.position = hit.point; // Actualiza la posición del preview
+            currentPreview.transform.position = hit.point;
 
-            // Verificar colisiones
             if (IsPlacementValid())
             {
-                SetPreviewMaterial(validPlacementMaterial);
+                SetPreviewColor(originalColor); // Color normal
             }
             else
             {
-                SetPreviewMaterial(invalidPlacementMaterial);
+                SetPreviewColor(Color.red); // Color rojizo si no es válido
             }
         }
     }

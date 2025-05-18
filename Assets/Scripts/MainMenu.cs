@@ -7,14 +7,12 @@ public class MainMenu : MonoBehaviour
     public void StartGame()
     {
         // Aquí puedes cargar la escena del juego
-        Debug.Log("Iniciando el juego...");
-        SceneManager.LoadScene("Juego");
+        SceneManager.LoadScene("Tutorial"); // Va a la escena del tutorial
     }
 
     public void QuitGame()
     {
         // Aquí puedes agregar lógica para guardar el progreso o mostrar un mensaje de confirmación
-        Debug.Log("Saliendo del juego...");
         Application.Quit(); // Cierra la aplicación
     }
 }

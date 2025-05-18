@@ -7,32 +7,69 @@ public class TalarYDestruir : MonoBehaviour
 
     [SerializeField] private GameManager gameManager; // Referencia al GameManager
 
-void OnMouseDown()
-{
-    Debug.Log("Clic detectado en: " + gameObject.name);
+    [SerializeField] private AudioClip sonidoTalar; // Clip de sonido para el talado
+    private AudioSource audioSource;
 
-    MeshFilter meshFilter = GetComponent<MeshFilter>();
-
-    if (meshFilter == null)
+    private void Awake()
     {
-        Debug.LogWarning("El objeto no tiene un MeshFilter: " + gameObject.name);
-        return;
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+            audioSource = gameObject.AddComponent<AudioSource>();
     }
 
-    if (!talado)
+    public void ReproducirSonidoTalar(float volumen = 0.1f)
     {
-        Debug.Log("Talar: " + gameObject.name);
-        // Primer clic: talar (cambiar mesh)
-        meshFilter.mesh = meshTalado;
-        talado = true;
-        gameManager.SumarRecursos(10); // Sumar recursos al GameManager
+        if (sonidoTalar != null && audioSource != null)
+            audioSource.PlayOneShot(sonidoTalar, volumen);
     }
-    else if (meshFilter.sharedMesh == meshTalado)
+
+    public void TalarODestruir()
     {
-        Debug.Log("Destruir: " + gameObject.name);
-        // Segundo clic: destruir
-        Destroy(gameObject);
-        gameManager.SumarRecursos(5); // Sumar recursos al GameManager
+        Debug.Log("Clic detectado en: " + gameObject.name);
+
+        MeshFilter meshFilter = GetComponent<MeshFilter>();
+
+        if (meshFilter == null)
+        {
+            Debug.LogWarning("El objeto no tiene un MeshFilter: " + gameObject.name);
+            return;
+        }
+
+        if (!talado)
+        {
+            Debug.Log("Talar: " + gameObject.name);
+            meshFilter.mesh = meshTalado;
+            talado = true;
+            gameManager.SumarRecursos(10);
+            ReproducirSonidoTalar(0.1f);
+        }
+        else if (meshFilter.sharedMesh == meshTalado)
+        {
+            Debug.Log("Destruir: " + gameObject.name);
+
+            // Restaurar cursor antes de destruir el objeto
+            CursorManager cursorManager = FindFirstObjectByType<CursorManager>();
+            if (cursorManager != null)
+                cursorManager.SetDefaultCursor();
+
+            Destroy(gameObject);
+            gameManager.SumarRecursos(5);
+            ReproducirSonidoTalar(0.1f);
+        }
     }
-}
+
+    // --- Cambia el cursor al pasar el mouse por encima del árbol ---
+    private void OnMouseEnter()
+    {
+        CursorManager cursorManager = FindFirstObjectByType<CursorManager>();
+        if (cursorManager != null)
+            cursorManager.SetAxeCursor();
+    }
+
+    private void OnMouseExit()
+    {
+        CursorManager cursorManager = FindFirstObjectByType<CursorManager>();
+        if (cursorManager != null)
+            cursorManager.SetDefaultCursor();
+    }
 }

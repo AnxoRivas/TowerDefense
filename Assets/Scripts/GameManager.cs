@@ -7,15 +7,35 @@ public class GameManager : MonoBehaviour
     [SerializeField] private UIManager uiManager; // Referencia al UIManager
     public GameObject GameOverUI; // Reference to the Game Over UI
 
+    [SerializeField] private AudioClip sonidoAmbiente; // Clip de sonido para el impacto
+    private AudioSource audioSource;
+
+
     public int vidas = 3; // Vidas del jugador
     public int recursos = 0; // Recursos del jugador
 
     private void Awake()
     {
+
+        Application.targetFrameRate = 30;
+
         if (Instance == null)
         {
             Instance = this; // Asigna la instancia
             DontDestroyOnLoad(gameObject); // No destruir al cargar una nueva escena
+
+            audioSource = GetComponent<AudioSource>();
+            if (audioSource == null)
+            {
+                audioSource = gameObject.AddComponent<AudioSource>();
+            }
+
+            if (sonidoAmbiente != null && audioSource != null)
+            {
+                audioSource.PlayOneShot(sonidoAmbiente);
+            }
+
+
         }
         else
         {
@@ -50,6 +70,8 @@ public class GameManager : MonoBehaviour
         Debug.Log("Recursos Gastados");
         uiManager.ActualizarTexto();
     }
+    
+
 
 
 }

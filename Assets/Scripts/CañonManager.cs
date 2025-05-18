@@ -19,7 +19,13 @@ public class CañonManager : MonoBehaviour, ITorreManager
 
     private void LanzarProyectil(Transform target)
     {
+        
         GameObject proyectilObj = proyectilPool.GetProyectil();
+            if (proyectilObj == null)
+    {
+        Debug.LogError("No hay proyectiles disponibles en el pool.");
+        return;
+    }
         proyectilObj.transform.position = transform.position;
         proyectilObj.transform.rotation = Quaternion.identity;
 

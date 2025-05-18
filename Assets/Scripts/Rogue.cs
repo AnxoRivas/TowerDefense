@@ -7,7 +7,7 @@ public class Rogue : MonoBehaviour, IEnemigo // Cambiar para implementar la inte
 
     private void Start()
     {
-        pool = FindObjectOfType<ObjectPool>();
+        pool = FindAnyObjectByType<ObjectPool>();
     }
 
     public void RecibirDanio(float danio)

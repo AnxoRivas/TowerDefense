@@ -78,3 +78,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   velocidad: 5
+  sonidoDisparo: {fileID: 8300000, guid: 14c47db19b4ae1948a7c38a1e04a26ce, type: 3}

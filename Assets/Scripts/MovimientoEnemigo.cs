@@ -18,33 +18,42 @@ public class MovimientoEnemigo : MonoBehaviour
         Movement();
     }
 
-private void Movement() {
-    // Asegurarse de que el índice esté dentro del rango de la lista
-    if (targetIndex >= waypoints.Count) {
-        pool.ReturnObject(gameObject); // Devolver el objeto al pool si se ha alcanzado el último waypoint.
-        uiManager.RestarVida(); // Restar vida al jugador
-        return; // Detener el movimiento si no hay más waypoints
-    }
-
-    Vector3 direction = (waypoints[targetIndex].position - transform.position).normalized;
-
-    // Rotar hacia la dirección del movimiento
-    if (direction != Vector3.zero) {
-        Quaternion targetRotation = Quaternion.LookRotation(direction);
-        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
-    }
-
-    // Moverse hacia el waypoint
-    transform.position = Vector3.MoveTowards(transform.position, waypoints[targetIndex].position, movementSpeed * Time.deltaTime);
-    var distance = Vector3.Distance(transform.position, waypoints[targetIndex].position);
-
-    if (distance <= 0.1f) {
-        if (targetIndex >= waypoints.Count - 1) {
-            pool.ReturnObject(gameObject); // Devolver el objeto al pool si se ha alcanzado el último waypoint
+    private void Movement()
+    {
+        // Asegurarse de que el índice esté dentro del rango de la lista
+        if (targetIndex >= waypoints.Count)
+        {
+            pool.ReturnObject(gameObject); // Devolver el objeto al pool si se ha alcanzado el último waypoint.
             uiManager.RestarVida(); // Restar vida al jugador
-            return; // Detener el movimiento si se alcanza el último waypoint
+            return; // Detener el movimiento si no hay más waypoints
         }
-        targetIndex++;
+
+        Vector3 direction = (waypoints[targetIndex].position - transform.position).normalized;
+
+        // Rotar hacia la dirección del movimiento
+        if (direction != Vector3.zero)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(direction);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+        }
+
+        // Moverse hacia el waypoint
+        transform.position = Vector3.MoveTowards(transform.position, waypoints[targetIndex].position, movementSpeed * Time.deltaTime);
+        var distance = Vector3.Distance(transform.position, waypoints[targetIndex].position);
+
+        if (distance <= 0.1f)
+        {
+            if (targetIndex >= waypoints.Count - 1)
+            {
+                pool.ReturnObject(gameObject); // Devolver el objeto al pool si se ha alcanzado el último waypoint
+                uiManager.RestarVida(); // Restar vida al jugador
+                return; // Detener el movimiento si se alcanza el último waypoint
+            }
+            targetIndex++;
+        }
     }
-}
+    public void ReiniciarWaypoints()
+    {
+        targetIndex = 1; // O 0, según tu lógica de inicio
+    }
 }
